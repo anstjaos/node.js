@@ -68,7 +68,7 @@ function getUser() { // 로딩 시 사용자 가져오는 함수
     }
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
-      if (xhr.status === 201 || xhr.status === 200) {
+      if ([200, 201].indexOf(xhr.status) > -1) {
         console.log(xhr.responseText);
         getUser();
       } else {
