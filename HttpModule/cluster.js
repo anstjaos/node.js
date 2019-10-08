@@ -17,7 +17,7 @@ if(cluster.isMaster) {
         res.end('http server');
         setTimeout(() => {
             process.exit(1);
-        },1000);
+        }, 1000);
     }).listen(8080);
     console.log(process.pid, '워커 실행');
 }
