@@ -113,7 +113,7 @@ function getComment(id) {
 document.getElementById('user-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var name = e.target.username.value;
-    var age = e.target.age.value;
+    var age = parseInt(e.target.age.value, 10);
     var married = e.target.married.checked;
     if (!name) {
         return alert('이름을 입력하세요');
@@ -140,7 +140,7 @@ document.getElementById('user-form').addEventListener('submit', function (e) {
 // 댓글 등록 시
 document.getElementById('comment-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var id = e.target.userid.value;
+    var id = parseInt(e.target.userid.value);
     var comment = e.target.comment.value;
     if (!id) {
         return alert('아이디를 입력하세요');
