@@ -1,6 +1,7 @@
 const util = require('util');
 const crypto = require('crypto');
 
+// 지원이 조만간 중단될 메서드임을 알려준다.
 const dontuseme = util.deprecate((x, y) => {
     console.log(x + y);
 }, '이 함수는 곧 지원하지 않습니다.');
