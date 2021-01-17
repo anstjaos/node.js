@@ -15,6 +15,6 @@ server.on('listening', () => {
     console.log('8081 포트에서 서버 대기중입니다.');
 });
 
-server.on('error', () => {
+server.on('error', (error) => {
     console.error(error);
 });
