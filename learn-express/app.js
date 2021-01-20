@@ -15,6 +15,9 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// app.use (미들웨어 장착)
+// request가 들어오면 위에서부터 차례대로 맞는거부터 실행한다.
+// 다음 미들웨어로 요청보내려면 next()를 사용해야 한다.
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
