@@ -10,10 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: sequelize.literal('now()'),
         },
     }, {
-        timestamp: false,
+        timestamps: false,
         underscored: true,
     });
 };
-
-// comment 테이블
-// 작성자, 댓글 내용, 생성일

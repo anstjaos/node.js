@@ -27,7 +27,3 @@ module.exports = (sequelize, DataTypes) => {
         underscored: true,
     });
 };
-
-// users 테이블
-// 이름, 나이, 결혼여부, 자기소개, 생성일
-// 
