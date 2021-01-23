@@ -101,3 +101,4 @@ public
 .tern-port
 
 config.json
+learn-sequelize/config/config.json
