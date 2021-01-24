@@ -1,25 +1,25 @@
 // 사용자 이름 눌렀을 때 댓글 로딩
 document.querySelectorAll('#user-list tr').forEach(function (el) {
     el.addEventListener('click', function () {
-        var id = el.querySelector('td').textContent;
+        let id = el.querySelector('td').textContent;
         getComment(id);
     });
 });
 // 사용자 로딩
 function getUser() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var users = JSON.parse(xhr.responseText);
+            let users = JSON.parse(xhr.responseText);
             console.log(users);
-            var tbody = document.querySelector('#user-list tbody');
+            let tbody = document.querySelector('#user-list tbody');
             tbody.innerHTML = '';
             users.map(function (user) {
-                var row = document.createElement('tr');
+                let row = document.createElement('tr');
                 row.addEventListener('click', function () {
                     getComment(user.id);
                 });
-                var td = document.createElement('td');
+                let td = document.createElement('td');
                 td.textContent = user.id;
                 row.appendChild(td);
                 td = document.createElement('td');
@@ -42,15 +42,15 @@ function getUser() {
 }
 // 댓글 로딩
 function getComment(id) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var comments = JSON.parse(xhr.responseText);
-            var tbody = document.querySelector('#comment-list tbody');
+            let comments = JSON.parse(xhr.responseText);
+            let tbody = document.querySelector('#comment-list tbody');
             tbody.innerHTML = '';
             comments.map(function (comment) {
-                var row = document.createElement('tr');
-                var td = document.createElement('td');
+                let row = document.createElement('tr');
+                let td = document.createElement('td');
                 td.textContent = comment.id;
                 row.appendChild(td);
                 td = document.createElement('td');
@@ -59,14 +59,14 @@ function getComment(id) {
                 td = document.createElement('td');
                 td.textContent = comment.comment;
                 row.appendChild(td);
-                var edit = document.createElement('button');
+                let edit = document.createElement('button');
                 edit.textContent = '수정';
                 edit.addEventListener('click', function () { // 수정 클릭 시
-                    var newComment = prompt('바꿀 내용을 입력하세요');
+                    let newComment = prompt('바꿀 내용을 입력하세요');
                     if (!newComment) {
                         return alert('내용을 반드시 입력하셔야 합니다');
                     }
-                    var xhr = new XMLHttpRequest();
+                    let xhr = new XMLHttpRequest();
                     xhr.onload = function () {
                         if (xhr.status === 200) {
                             console.log(xhr.responseText);
@@ -79,10 +79,10 @@ function getComment(id) {
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify({ comment: newComment }));
                 });
-                var remove = document.createElement('button');
+                let remove = document.createElement('button');
                 remove.textContent = '삭제';
                 remove.addEventListener('click', function () { // 삭제 클릭 시
-                    var xhr = new XMLHttpRequest();
+                    let xhr = new XMLHttpRequest();
                     xhr.onload = function () {
                         if (xhr.status === 200) {
                             console.log(xhr.responseText);
@@ -112,16 +112,16 @@ function getComment(id) {
 // 사용자 등록 시
 document.getElementById('user-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = e.target.username.value;
-    var age = parseInt(e.target.age.value, 10);
-    var married = e.target.married.checked;
+    let name = e.target.username.value;
+    let age = parseInt(e.target.age.value, 10);
+    let married = e.target.married.checked;
     if (!name) {
         return alert('이름을 입력하세요');
     }
     if (!age) {
         return alert('나이를 입력하세요');
     }
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.status === 201) {
             console.log(xhr.responseText);
@@ -140,15 +140,15 @@ document.getElementById('user-form').addEventListener('submit', function (e) {
 // 댓글 등록 시
 document.getElementById('comment-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    var id = parseInt(e.target.userid.value);
-    var comment = e.target.comment.value;
+    let id = parseInt(e.target.userid.value);
+    let comment = e.target.comment.value;
     if (!id) {
         return alert('아이디를 입력하세요');
     }
     if (!comment) {
         return alert('댓글을 입력하세요');
     }
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.onload = function () {
         if (xhr.status === 201) {
             console.log(xhr.responseText);
