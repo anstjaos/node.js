@@ -15,7 +15,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.patch('/:id', (req, res, next) => {
-    Comment.update({ _id: req.params.id }, { comment: req.body.comment })
+    Comment.updateOne({ _id: req.params.id }, { comment: req.body.comment })
         .then((result) => {
             res.json(result);
         })
