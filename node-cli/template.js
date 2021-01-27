@@ -60,6 +60,8 @@ const makeTemplate = () => {
         if (exist(pathToFile)) {
             console.error('이미 해당 파일이 존재합니다');
         } else {
+            // 여러 번 동시에 호출될 것 같으면 Sync 사용 금지
+            // Blocking IO다.
             fs.writeFileSync(pathToFile, htmlTemplate);
             console.log(pathToFile, '생성 완료');
         }
@@ -109,6 +111,7 @@ const program = () => {
             output: process.stdout,
         });
         console.clear();
+        console.error('사용방법: cli html | express-router 파일명 [생성 경로]');
         rl.question('어떤 템플릿이 필요하십니까?', typeAnswer);
     } else {
         makeTemplate();
