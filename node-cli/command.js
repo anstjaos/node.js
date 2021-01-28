@@ -108,6 +108,8 @@ program
     .version('0.0.1', '-v, --version')
     .usage('[options]');
 
+// --옵션 -단축옵션
+// <필수> [선택]
 program
     .command('template <type>')
     .usage('--name <name> --path [path]')
