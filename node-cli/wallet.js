@@ -40,21 +40,24 @@ program
         await sequelize.close();
         triggered = true;
     });
+triggered = true;
+
+const getBalance = async () => {
+    triggered = true;
+    await sequelize.sync();
+    const logs = await Wallet.findAll({});
+    const revenue = logs.filter(log => log.type === true)
+        .reduce((acc, cur) => acc + cur.money, 0);
+    const expense = logs.filter(log => log.type === false)
+        .reduce((acc, cur) => acc + cur.money, 0);
+    console.log(`${revenue - expense}원 남았습니다.`);
+    await sequelize.close();
+}
 // 잔액
 program
     .command('balance')
     .description('잔액을 표시합니다.')
-    .action(async () => {
-        await sequelize.sync();
-        const logs = await Wallet.findAll({});
-        const revenue = logs.filter(log => log.type === true)
-            .reduce((acc, cur) => acc + cur.money, 0);
-        const expense = logs.filter(log => log.type === false)
-            .reduce((acc, cur) => acc + cur.money, 0);
-        console.log(`${revenue - expense}원 남았습니다.`);
-        await sequelize.close();
-        triggered = true;
-    });
+    .action(getBalance);
 
 program
     .command('*')
@@ -64,6 +67,7 @@ program
     });
 
 program.parse(process.argv);
+
 
 if (!triggered) {
     inquirer.prompt([{
@@ -113,14 +117,7 @@ if (!triggered) {
             }
 
             if (answers.type === '잔액') {
-                await sequelize.sync();
-                const logs = await Wallet.findAll({});
-                const revenue = logs.filter(log => log.type === true)
-                    .reduce((acc, cur) => acc + cur.money, 0);
-                const expense = logs.filter(log => log.type === false)
-                    .reduce((acc, cur) => acc + cur.money, 0);
-                console.log(`${revenue - expense}원 남았습니다.`);
-                await sequelize.close();
+                await getBalance();
             }
         });
 }
