@@ -87,7 +87,7 @@ const dirAnswer = (answer) => {
 const nameAnswer = (answer) => {
     if (!answer || !answer.trim()) {
         console.clear();
-        console.log('name을 반드시 입력하셔야 합니다.');
+        console.log('파일을 반드시 입력하셔야 합니다.');
         return rl.question('파일명을 설정하세요. ', nameAnswer);
     }
     name = answer;
@@ -107,7 +107,7 @@ const typeAnswer = (answer) => {
 const program = () => {
     if (!type || !name) {
         rl = readline.createInterface({
-            input: process.stdin,
+            input: process.stdin,명
             output: process.stdout,
         });
         console.clear();
