@@ -15,9 +15,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "html": "^1.0.0",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
-    "pug": "^3.0.0",
+    "nunjucks": "^3.2.2",
     "sequelize": "^6.5.0"
   },
   "devDependencies": {
