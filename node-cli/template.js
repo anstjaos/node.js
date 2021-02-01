@@ -107,7 +107,7 @@ const typeAnswer = (answer) => {
 const program = () => {
     if (!type || !name) {
         rl = readline.createInterface({
-            input: process.stdin,명
+            input: process.stdin,
             output: process.stdout,
         });
         console.clear();
