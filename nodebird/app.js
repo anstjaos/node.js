@@ -5,10 +5,12 @@ const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
 const nunjucks = require('nunjucks');
+const passport = require('passport');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const { sequelize } = require('./models');
+const passportConfig = require('./passport');
 
 const app = express();
 sequelize.sync();
@@ -36,6 +38,8 @@ app.use(session({
     },
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 
