@@ -10,4 +10,21 @@ const sequelize = new Sequelize(
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.User = require('./user')(sequelize, Sequelize);
+db.Post = require('./post')(sequelize, Sequelize);
+db.Hashtag = require('./hashtag')(sequelize, Sequelize);
+
+db.User.hasMany(db.Post); // 1 쪽이 hasMany
+db.Post.belongsTo(db.User);
+
+// 다대다는 순서 상관없다.
+db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });
+db.Hashtag.belongsToMany(db.Post, { through: 'PostHashtag' });
+
+db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' });
+db.User.belongsToMany(db.User, { through: 'Follow', as: 'Following', foreignKey: 'followerId' });
+
+db.User.belongsToMany(db.Post, { through: 'Like' });
+db.Post.belongsToMany(db.User, { through: 'Like' });
+
 module.exports = db;
