@@ -17,5 +17,5 @@ module.exports = () => {
     });
 
     local();
-    // kakao(passport);
+    kakao();
 };
