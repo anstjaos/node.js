@@ -5,9 +5,9 @@ const { Post, User, Hashtag } = require('../models');
 
 router.use((req, res, next) => {
     res.locals.user = req.user;
-    res.locals.followerCount = 0;
-    res.locals.followingCount = 0;
-    res.locals.followerIdList = [];
+    res.locals.followerCount = req.user ? req.user.Followers.length : 0;
+    res.locals.followingCount = req.user ? req.user.Followings.length : 0;
+    res.locals.followerIdList = req.user ? req.user.Followings.map(f => f.id) : [];
     next();
 });
 
@@ -34,7 +34,6 @@ router.get('/', (req, res, next) => {
             res.render('main', {
                 title: 'NodeBird',
                 twits: posts,
-                user: req.user,
                 loginError: req.flash('loginError'),
             });
         })
@@ -51,14 +50,13 @@ router.get('/hashtag', async (req, res, next) => {
     }
 
     try {
-        const hashtag = await Hashtag.findAll({ where: { title: query } });
+        const hashtag = await Hashtag.findOne({ where: { title: query } });
         let posts = [];
         if (hashtag) {
-            post = await hashtag.getPosts({ include: [{ model: User }]});
+            posts = await hashtag.getPosts({ include: [{ model: User }]});
         }
         return res.render('main', {
             title: `${query} | NodeBird`,
-            user: req.user,
             twits: posts,
         });
     } catch (error) {
