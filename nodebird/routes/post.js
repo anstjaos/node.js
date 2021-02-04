@@ -5,6 +5,7 @@ const path = require('path');
 const router = express.Router();
 
 const { Post, Hashtag } = require('../models');
+const { isLoggedIn } = require('./middlewares')
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -19,13 +20,13 @@ const upload = multer({
     limit: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post('/img', upload.single('img'), (req, res) => {
+router.post('/img', isLoggedIn, upload.single('img'), (req, res) => {
     console.log(req.file);
     res.json({ url: `/img/${req.file.filename}` });
 }); // img == html의 image id
 
 const upload2 = multer();
-router.post('/', upload2.none(), async (req, res, next) => {
+router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     try {
         const post = await Post.create({
             content: req.body.content,

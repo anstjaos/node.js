@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { Post, User } = require('../models');
+const { Post, User, Hashtag } = require('../models');
 
 router.use((req, res, next) => {
     res.locals.user = req.user;
@@ -42,6 +42,29 @@ router.get('/', (req, res, next) => {
             console.error(error);
             next(error);
         });
+});
+
+router.get('/hashtag', async (req, res, next) => {
+    const query = req.query.hashtag;
+    if (!query) {
+        return res.redirect('/');
+    }
+
+    try {
+        const hashtag = await Hashtag.findAll({ where: { title: query } });
+        let posts = [];
+        if (hashtag) {
+            post = await hashtag.getPosts({ include: [{ model: User }]});
+        }
+        return res.render('main', {
+            title: `${query} | NodeBird`,
+            user: req.user,
+            twits: posts,
+        });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
 });
 
 module.exports = router;
