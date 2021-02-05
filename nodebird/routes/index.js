@@ -12,7 +12,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/profile', isLoggedIn, (req, res) => {
-   res.render('profile', { title: '내 정보 - nodebird', user: null });
+   res.render('profile', { title: '내 정보 - nodebird', user: req.user });
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {

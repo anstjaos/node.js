@@ -18,5 +18,11 @@
         {% endfor %}
         {% endif %}
     </div>
+    <form id="profile-form" action="/user/profile" method="post">
+        <div>
+            <input name="nick">
+            <button id="nick-btn" type="submit" class="btn">닉네임 수정</button>
+        </div>
+    </form>
 </div>
 {% endblock %}
