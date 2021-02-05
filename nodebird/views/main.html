@@ -40,6 +40,12 @@
             {% if twit.img %}
             <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
             {% endif %}
+            {% if user and not twit.likers.includes(user.id) %}
+            <button class="like">좋아요</button>
+            {% endif %}
+            {% if user and twit.likers.includes(user.id) %}
+            <button class="unlike">좋아요 취소</button>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
@@ -99,6 +105,34 @@
                             });
                     }
                 }
+            }
+        });
+    });
+    document.querySelectorAll('.like').forEach(function(tag) {
+        tag.addEventListener('click', function() {
+            const twitId = document.querySelector('.twit-id').value;
+            if (twitId) {
+                axios.post(`/post/${twitId}/like`)
+                    .then(() => {
+                        location.reload();
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            }
+        });
+    });
+    document.querySelectorAll('.unlike').forEach(function(tag) {
+        tag.addEventListener('click', function() {
+            const twitId = document.querySelector('.twit-id').value;
+            if (twitId) {
+                axios.post(`/post/${twitId}/unlike`)
+                    .then(() => {
+                        location.reload();
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
             }
         });
     });

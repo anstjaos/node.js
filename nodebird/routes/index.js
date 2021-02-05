@@ -25,12 +25,19 @@ router.get('/join', isNotLoggedIn, (req, res) => {
 
 router.get('/', (req, res, next) => {
     Post.findAll({
-        include: {
+        include: [{
             model: User,
             attributes: ['id', 'nick'],
-        },
+        },{
+            model: User,
+            attributes: ['id', 'nick'],
+            as: 'Liker',
+        }]
     })
         .then((posts) => {
+            posts.forEach(p => {
+                p.likers = p.Liker.map(l => l.id);
+            });
             res.render('main', {
                 title: 'NodeBird',
                 twits: posts,
