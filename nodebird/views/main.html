@@ -99,7 +99,7 @@
                 const userId = tag.parentNode.querySelector('.twit-user-id').value;
                 if (userId !== myId.value) {
                     if (confirm('팔로잉 끊으시겠습니까?')) {
-                        axios.post(`/user/${userId}/unfollow`)
+                        axios.delete(`/user/${userId}/unfollow`)
                             .then(() => {
                                 location.reload();
                             })
