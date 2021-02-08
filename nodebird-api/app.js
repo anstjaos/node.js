@@ -18,7 +18,6 @@ sequelize.sync();
 passportConfig();
 
 app.set('view engine', 'html');
-app.set('view engine', 'html');
 nunjucks.configure('views', {
     express: app,
     watch: true,
