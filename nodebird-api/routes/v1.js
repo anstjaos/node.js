@@ -90,4 +90,22 @@ router.get('/posts/hashtag/:title', verifyToken, async (req, res) => {
    }
 });
 
+router.get('/follow', verifyToken, async (req, res) => {
+    try {
+        const user = await User.findOne({ where: { id: req.decoded.id }});
+        const follower = await user.getFollowers({ attributes: ['id', 'nick'] });
+        const following = await user.getFollowings({ attributes: ['id', 'nick'] });
+        return res.json({
+            code: 200,
+            follower,
+            following,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            code: 500,
+            message: '서버 에러',
+        })
+    }
+})
 module.exports = router;
