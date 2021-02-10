@@ -37,12 +37,12 @@ exports.verifyToken = (req, res, next) => {
 
 exports.apiLimiter = new RateLimit({
     windowMs: 60 * 1000,    // 이 시간 동안
-    max: 1,                 // 최대 횟수
+    max: 10,                 // 최대 횟수
     delayMs: 0,
     handler(req, res) {
         res.status(this.statusCode).json({
             code: this.statusCode,
-            message: '무료 사용자는 1분에 한 번만 요청할 수 있습니다.'
+            message: '무료 사용자는 1분에 10 번만 요청할 수 있습니다.'
         });
     },
 });
