@@ -42,6 +42,8 @@ const request = async (req, api) => {
     } catch (error) {
         console.error(error);
         if (error.response.status < 500) {
+            delete req.session.jwt;
+            request(req, api);
             return error.response;
         }
         throw error;
@@ -83,7 +85,7 @@ router.get('/follow', async (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    res.render('main', { key: process.env.CLIENT_SECRET });
+    res.render('main', { key: process.env.FRONT_SECRET });
 });
 
 module.exports = router;
