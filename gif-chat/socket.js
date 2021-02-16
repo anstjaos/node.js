@@ -1,7 +1,8 @@
 //const WebSocket = require('ws');
 const SocketIO = require('socket.io');
+const axios = require('axios');
 
-module.exports = (server) => {
+module.exports = (server, app, sessionMiddleware) => {
     // const wss = new WebSocket.Server({ server });
     //
     // wss.on('connection', (ws, req) => {
@@ -26,10 +27,15 @@ module.exports = (server) => {
     // });
 
     const io = SocketIO(server, { path: '/socket.io' });
+    app.set('io', io); // 익스프레스 변수 저장 방법
+    // req.app.get('io').of('/room').emit
     // 네임 스페이스
     // default: io.of('/');
     const room = io.of('/room');
     const chat = io.of('/chat');
+    io.use((socket, next) => {  // 익스프레스 미들웨어 사용 방법
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
 
     room.on('connection', (socket) => {
         console.log('room 네임스페이스에 접속');
