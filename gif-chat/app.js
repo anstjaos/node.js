@@ -9,8 +9,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 const webSocket = require('./socket');
 const indexRouter = require('./routes');
+const connect = require('./schemas');
 
 const app = express();
+connect();
+
 app.set('port', process.env.PORT || 8005);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
