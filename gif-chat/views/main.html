@@ -69,7 +69,9 @@
     });
 
     socket.on('removeRoom', function (data) { // 방 제거 이벤트 시 id가 일치하는 방 제거
+        console.log('removeRoom', data);
         document.querySelectorAll('tbody tr').forEach(function (tr) {
+            console.log(tr.dataset.id);
             if (tr.dataset.id === data) {
                 tr.parentNode.removeChild(tr);
             }
