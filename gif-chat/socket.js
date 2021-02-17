@@ -1,6 +1,7 @@
 //const WebSocket = require('ws');
 const SocketIO = require('socket.io');
 const axios = require('axios');
+const cookieParser = require('cookie-parser');
 
 module.exports = (server, app, sessionMiddleware) => {
     // const wss = new WebSocket.Server({ server });
@@ -34,6 +35,7 @@ module.exports = (server, app, sessionMiddleware) => {
     const room = io.of('/room');
     const chat = io.of('/chat');
     io.use((socket, next) => {  // 익스프레스 미들웨어 사용 방법
+        cookieParser(process.env.COOKIE_SECRET)(socket.request, socket.request.res, next);
         sessionMiddleware(socket.request, socket.request.res, next);
     });
 
