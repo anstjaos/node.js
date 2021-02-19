@@ -2,8 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const schedule = require('node-schedule');
 
-const { Good, Auction, User } = require('../models');
+const { Good, Auction, User, sequelize } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -57,11 +58,27 @@ const upload = multer({
 router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) => {
     try {
         const { name, price } = req.body;
-        await Good.create({
+        const good = await Good.create({
             OwnerId: req.user.id,
             name,
             img: req.file.filename,
             price,
+        });
+        const end = new Date();
+        end.setMinutes(end.getMinutes() + 1);
+        // 서버 메모리에 스케쥴이 저장됨.
+        // 서버가 재시작할 경우 다 사라짐.
+        schedule.scheduleJob(end, async () => {
+            const success = await Auction.findOne({
+                where: { goodId: good.id },
+                order: [['bid', 'DESC']],
+            });
+            await Good.update({ soldId: success.userId }, { where: { id: good.id } });
+            await User.update({
+                money: sequelize.literal(`money - ${success.bid}`),
+            }, {
+                where: { id: success.userId },
+            });
         });
         res.redirect('/');
     } catch (error) {
