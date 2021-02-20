@@ -59,13 +59,13 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
     try {
         const { name, price } = req.body;
         const good = await Good.create({
-            OwnerId: req.user.id,
+            ownerId: req.user.id,
             name,
             img: req.file.filename,
             price,
         });
         const end = new Date();
-        end.setMinutes(end.getMinutes() + 1);
+        end.setDate(end.getDate() + 1);
         // 서버 메모리에 스케쥴이 저장됨.
         // 서버가 재시작할 경우 다 사라짐.
         schedule.scheduleJob(end, async () => {
@@ -122,6 +122,10 @@ router.post('/good/:id/bid', isLoggedIn, async (req, res, next) => {
            include: { model: Auction },
            order: [[{ model: Auction}, 'bid', 'DESC']],
        });
+
+       if (good.ownerId === req.user.id) {
+           return res.status(403).send('상품 주인은 경매에 참여할 수 없습니다.');
+       }
        if (good.price > bid) {
            return res.status(403).send('시작 가격보다 높게 입찰해야 합니다.');
        }
