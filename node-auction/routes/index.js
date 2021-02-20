@@ -61,11 +61,12 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
         const good = await Good.create({
             ownerId: req.user.id,
             name,
+            end: req.body.end,
             img: req.file.filename,
             price,
         });
         const end = new Date();
-        end.setDate(end.getDate() + 1);
+        end.setHours(end.getHours() + good.end);
         // 서버 메모리에 스케쥴이 저장됨.
         // 서버가 재시작할 경우 다 사라짐.
         schedule.scheduleJob(end, async () => {
