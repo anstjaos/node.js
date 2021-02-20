@@ -74,12 +74,17 @@ router.post('/good', isLoggedIn, upload.single('img'), async (req, res, next) =>
                 where: { goodId: good.id },
                 order: [['bid', 'DESC']],
             });
-            await Good.update({ soldId: success.userId }, { where: { id: good.id } });
-            await User.update({
-                money: sequelize.literal(`money - ${success.bid}`),
-            }, {
-                where: { id: success.userId },
-            });
+
+            if (success) {
+                await Good.update({soldId: success.userId}, {where: {id: good.id}});
+                await User.update({
+                    money: sequelize.literal(`money - ${success.bid}`),
+                }, {
+                    where: {id: success.userId},
+                });
+            } else {
+                await Good.update({ soldId: good.ownerId }, { where: { id: good.id }});
+            }
         });
         res.redirect('/');
     } catch (error) {

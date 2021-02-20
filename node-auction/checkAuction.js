@@ -15,24 +15,34 @@ module.exports = async () => {
                     where: {goodId: target.id},
                     order: [['bid', 'DESC']],
                 });
-                await Good.update({soldId: success.userId}, {where: {id: target.id}});
-                await User.update({
-                    money: sequelize.literal(`money - ${success.bid}`),
-                }, {
-                    where: {id: success.userId},
-                });
+
+                if (success) {
+                    await Good.update({soldId: success.userId}, {where: {id: target.id}});
+                    await User.update({
+                        money: sequelize.literal(`money - ${success.bid}`),
+                    }, {
+                        where: {id: success.userId},
+                    });
+                } else {
+                    await Good.update({ soldId: target.ownerId }, { where: { id: target.id }});
+                }
             } else {    // 아직 경매가 진행중인 것들
                 schedule.scheduleJob(end, async () => {
                     const success = await Auction.findOne({
                         where: { goodId: target.id },
                         order: [['bid', 'DESC']],
                     });
-                    await Good.update({ soldId: success.userId }, { where: { id: target.id } });
-                    await User.update({
-                        money: sequelize.literal(`money - ${success.bid}`),
-                    }, {
-                        where: { id: success.userId },
-                    });
+
+                    if (success) {
+                        await Good.update({soldId: success.userId}, {where: {id: target.id}});
+                        await User.update({
+                            money: sequelize.literal(`money - ${success.bid}`),
+                        }, {
+                            where: {id: success.userId},
+                        });
+                    } else {
+                        await Good.update({ soldId: target.ownerId }, { where: { id: target.id }});
+                    }
                 })
             }
         });
