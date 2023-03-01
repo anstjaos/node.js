@@ -17,6 +17,6 @@
         "commander": "^3.0.2",
         "inquirer": "^7.3.3",
         "mysql2": "^1.7.0",
-        "sequelize": "^5.22.3"
+        "sequelize": "^6.29.0"
     }
 }
