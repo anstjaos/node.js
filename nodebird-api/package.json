@@ -20,7 +20,7 @@
     "express-session": "^1.17.1",
     "jsonwebtoken": "^9.0.0",
     "morgan": "^1.10.0",
-    "mysql2": "^2.2.5",
+    "mysql2": "^3.9.7",
     "nunjucks": "^3.2.4",
     "passport": "^0.4.1",
     "passport-kakao": "^1.0.1",
